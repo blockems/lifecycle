@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+</head>
+<body>
+  <% include partials/header %>
+  <% include partials/menu %>
+
+  <h1>Login</h1>
+
+  <% if (error) { %>
+    <p><%= error %></p>
+  <% } %>
+
+  <form method="post" action="/login">
+    <div>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <button type="submit">Login</button>
+  </form>
+
+  <% include partials/footer %>
+</body>
+</html>

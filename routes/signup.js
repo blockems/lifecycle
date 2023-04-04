@@ -12,14 +12,14 @@ const db = new sqlite3.Database('./data/database.db', (err) => {
 
 // Signup form
 router.get('/', (req, res) => {
-  res.render('signup', { title: 'Sign up' });
+  res.render('signup', { title: 'Sign up', error: null });
 });
 
 // Signup action
 router.post('/', (req, res) => {
-  const { username, password, confirmPassword } = req.body;
+  const { email, password, confirmPassword, firstname, lastname } = req.body;
 
-  if (username && password && confirmPassword) {
+  if (email && password && confirmPassword && firstname && lastname) {
     if (password === confirmPassword) {
       // Hash password before storing in database
       bcrypt.hash(password, 10, (err, hash) => {
@@ -27,21 +27,21 @@ router.post('/', (req, res) => {
           console.error(err.message);
           res.status(500).send('Internal server error');
         } else {
-          db.run('INSERT INTO users (username, password) VALUES (?, ?)', [username, hash], (err) => {
-            if (err) {
-              console.error(err.message);
-              res.status(500).send('Internal server error');
-            } else {
-              res.redirect('/login');
-            }
-          });
+            db.run('INSERT INTO users (email, password, firstname, lastname, companyid) VALUES (?, ?, ?, ?, 0)', [email, hash, firstname, lastname], (err) => {
+                if (err) {
+                    console.error(err.message);
+                    res.status(500).send('Internal server error');
+                } else {
+                    res.redirect('/');
+                }
+            });
         }
       });
     } else {
       res.render('signup', { title: 'Sign up', error: 'Passwords do not match' });
     }
   } else {
-    res.render('signup', { title: 'Sign up', error: 'Please enter a username and password' });
+    res.render('signup', { title: 'Sign up', error: 'Please enter your name, email address, and a matching password.' });
   }
 });
 

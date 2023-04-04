@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include('partials/header') %>
+  <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+  <%- include('partials/menu') %>
+    <% if (user) { %>
+        <canvas id="myCanvas" width="500" height="500"></canvas>
+    <% } else { %>
+        <%- include('partials/login') %>
+    <%}%>
+  <script src="/js/canvas.js"></script>
+  <%- include('partials/script') %>
+  <%- include('partials/footer') %>
+</body>
+</html>
